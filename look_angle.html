@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		div {
+			border: 1px solid black;
+			margin-left: 500px;
+		}
+	</style>
+
+	<script type="text/javascript">
+
+// Calculate the angle of the mouse to the image.
+function angleMath(mouseX, mouseY, positionX, positionY) {
+	// Offset coordinates to center.
+	xD = mouseX - (positionX);
+	yD = mouseY - (positionY);
+	// Get the angle of the mouse relative to the central position of the element.
+	return Math.atan2(yD, xD) * 180 / Math.PI;
+}
+
+// Prepare the element with the relevant styles.
+function prepareElement(elementId) {
+	let element = document.getElementById(elementId);
+	element.style.backgroundImage = 'url(' + element.dataset.image + ')';
+	element.style.backgroundPosition = '-160 -160';
+	element.style.width = '160px';
+	element.style.height = '160px';
+	return element;
+}
+
+window.onload = function windowOnload() {
+
+	var elements = [
+		prepareElement("lookingFace1"),
+	];
+
+	document.addEventListener("mousemove", (event) => {
+		var currentx = event.pageX;
+		var currenty = event.pageY;
+
+		elements.forEach(element => {
+			var rect = element.getBoundingClientRect();
+
+			if (currentx >= rect.x && currentx <= rect.right && currenty >= rect.y && currenty <= rect.bottom) {
+				element.style.backgroundPosition = '50% 50%';
+				return;
+			}
+
+			var centerX = rect.x + (rect.width / 2);
+			var centerY = rect.y + (rect.height / 2);
+
+			angle = angleMath(currentx, currenty, centerX, centerY);
+
+			switch (true) {
+				case (angle <= 22.5 && angle > -22.5):
+					// East.
+					element.style.backgroundPosition = 'right';
+					break;
+				case (angle <= 67.5 && angle > 22.5):
+					// Southeast
+					element.style.backgroundPosition = 'bottom right';
+					break;
+				case (angle <= 112.5 && angle > 67.5):
+					// South
+					element.style.backgroundPosition = 'bottom';
+					break;
+				case (angle <= 157.5 && angle > 112.5):
+					// Southwest
+					element.style.backgroundPosition = 'bottom left';
+					break;
+				case (angle <= -157.5 || angle > 157.5):
+					// West
+					element.style.backgroundPosition = 'left';
+					break;
+				case (angle <= -112.5 && angle > -157.5):
+					// Northwest.
+					element.style.backgroundPosition = 'top left';
+					break;
+				case (angle <= -67.5 && angle > -112.5):
+					// North
+					element.style.backgroundPosition = 'top';
+					break;
+				case (angle <= -22.5 && angle > -67.5):
+					// Northeast.
+					element.style.backgroundPosition = 'top right';
+					break;
+			}
+		});
+
+	});
+}
+	</script>
+
+</head>
+
+<body>
+	<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.<p>
+
+	</p>Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+	
+	<div id="lookingFace1" data-image="robot_face.png"></div>
+
+	<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+</body>
+
+</html>
