@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		div {
+			border: 1px solid black;
+			margin-left: 500px;
+		}
+	</style>
+
+	<script type="text/javascript">
+
+function prepareElement(elementId) {
+	let element = document.getElementById(elementId);
+	element.style.backgroundImage = 'url(' + element.dataset.image + ')';
+	element.style.backgroundPosition = '-160 -160';
+	element.style.width = '160px';
+	element.style.height = '160px';
+	return element;
+}
+
+window.onload = function windowOnload() {
+
+	var elements = [
+		prepareElement("lookingFace1"),
+	];
+
+	document.addEventListener("mousemove", (event) => {
+		var currentx = event.pageX;
+		var currenty = event.pageY;
+
+		elements.forEach(element => {
+			var rect = element.getBoundingClientRect();
+
+		var tests = [
+			// North west.
+			[rect.left > currentx && rect.top > currenty, '0px 0px'],
+			// North.
+			[rect.left + rect.width > currentx && rect.left < currentx && rect.top > currenty, '-' + rect.width + 'px 0px'],
+			// North east.
+			[rect.left + rect.width < currentx && rect.top > currenty, '-' + (rect.width * 2) + 'px 0px'],
+			// West.
+			[rect.left > currentx && rect.top + rect.width > currenty && rect.top < currenty, '0px -' + rect.width + 'px'],
+			// Over.
+			[rect.left + rect.width > currentx && rect.left < currentx && rect.top + rect.width > currenty && rect.top < currenty, '-' + rect.width + 'px -' + rect.width + 'px'],
+			// East.
+			[rect.left + rect.width < currentx && rect.top + rect.width > currenty && rect.top < currenty, '-' + (rect.width * 2) + 'px -' + rect.width + 'px'],
+			// South west.
+			[rect.left > currentx && rect.top + rect.width < currenty, '0px -' + (rect.width * 2) + 'px'],
+			// South.
+			[rect.left + rect.width > currentx && rect.left < currentx && rect.top + rect.width < currenty, '-' + rect.width + 'px -' + (rect.width * 2) + 'px'],
+			// South east.
+			[rect.left + rect.width < currentx && rect.top + rect.width < currenty, '-' + (rect.width * 2) + 'px -' + (rect.width * 2) + 'px'],
+		];
+
+			tests.forEach(function (item, index, array) {
+				if (item[0]) {
+					element.style.backgroundPosition = item[1];
+					return;
+				}
+			});
+
+		});
+
+	});
+}
+	</script>
+
+</head>
+
+<body>
+	<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.<p>
+
+	</p>Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+	
+	<div id="lookingFace1" data-image="robot_face.png"></div>
+
+	<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+</body>
+
+</html>
