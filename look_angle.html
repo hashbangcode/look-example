@@ -13,7 +13,7 @@
 	<script type="text/javascript">
 
 // Calculate the angle of the mouse to the image.
-function angleMath(mouseX, mouseY, positionX, positionY) {
+function calculateAngle(mouseX, mouseY, positionX, positionY) {
 	// Offset coordinates to center.
 	xD = mouseX - (positionX);
 	yD = mouseY - (positionY);
@@ -52,7 +52,7 @@ window.onload = function windowOnload() {
 			var centerX = rect.x + (rect.width / 2);
 			var centerY = rect.y + (rect.height / 2);
 
-			angle = angleMath(currentx, currenty, centerX, centerY);
+			angle = calculateAngle(currentx, currenty, centerX, centerY);
 
 			switch (true) {
 				case (angle <= 22.5 && angle > -22.5):
